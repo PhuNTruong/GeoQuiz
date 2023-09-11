@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 //Listing 4.2:Creating a ViewModel Class
 //private const val TAG = "QuizViewModel" //you remove this in 5.5
 const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY" //4.8 Storing data in SavedStateHandle
-
+const val IS_CHEATER_KEY = "IS_CHEATER_KEY" // 7.15
 class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {// 4.8
 
     //4.5:Pasting model data into QuizViewModel
@@ -18,6 +18,11 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         Question(R.string.question_africa, false),
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true))
+
+    //7.15
+    var isCheater: Boolean
+        get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
+        set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
 
     private var currentIndex: Int
         get() = savedStateHandle.get(CURRENT_INDEX_KEY) ?: 0
