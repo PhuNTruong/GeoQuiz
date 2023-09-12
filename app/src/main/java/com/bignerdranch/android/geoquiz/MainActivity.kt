@@ -1,121 +1,83 @@
 package com.bignerdranch.android.geoquiz
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
 
-private const val TAG = "MainActivity" // 3.1
-
 class MainActivity : AppCompatActivity() {
+    //2.7
+    private lateinit var binding: ActivityMainBinding
 
-    private lateinit var binding: ActivityMainBinding // 2.7
 
-    private val quizViewModel: QuizViewModel by viewModels() // 4.3
+    //2.5
+    private val questionBank = listOf(
+        Question(R.string.question_australia, true),
+        Question(R.string.question_oceans, true),
+        Question(R.string.question_mideast, false),
+        Question(R.string.question_africa, false),
+        Question(R.string.question_americas, true),
+        Question(R.string.question_asia, true))
 
-    //Listing 7.12 Creating CheatLauncher
-    private val cheatLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        // Handle the result
-        //7.16 Pulling out the data in cheatLauncher
-        if (result.resultCode == Activity.RESULT_OK) {
-            quizViewModel.isCheater =
-                result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
-        }
-    }
+    private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate(Bundle?) called") // 3.2
-        binding = ActivityMainBinding.inflate(layoutInflater) // 2.7
-        setContentView(binding.root) // 2.7
-
-        Log.d(TAG, "Got a QuizViewModel: $quizViewModel") //4.3
+        //2.7
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
+
+        //2.8
         binding.trueButton.setOnClickListener { view: View ->
+            //2.13
             checkAnswer(true)
         }
 
+        //2.8
         binding.falseButton.setOnClickListener { view: View ->
+            //2.13
             checkAnswer(false)
         }
 
-        binding.nextButton.setOnClickListener {
-            quizViewModel.moveToNext() //4.7
+        //Challenge: add a Previous Button
+        binding.previousButton.setOnClickListener {
+            currentIndex = (currentIndex + questionBank.size - 1) % questionBank.size
             updateQuestion()
 
         }
-//Listing 7.5 Wiring up the cheat button
-        binding.cheatButton.setOnClickListener {
-            // Start CheatActivity
-            //Listing 7.6 Starting CheatActivity
-            //Listing 7.9 Launching CheatActivity with an Extra
-            val answerIsTrue = quizViewModel.currentQuestionAnswer
-            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
-            //Listing 7.13 Launching cheatLauncher
-            cheatLauncher.launch(intent)
+
+        //2.10
+        binding.nextButton.setOnClickListener {
+            currentIndex = (currentIndex + 1) % questionBank.size
+            updateQuestion()
+
         }
 
-
+        //2.9
         updateQuestion()
     }
 
-    //Overriding lifecycle callback functions
-    //Calling the superclass implementation should be the first line of each callback function override implementation.
-    override fun onStart() { // 3.3
-        super.onStart()
-        Log.d(TAG, "onStart() called")
-    }
-
-    override fun onResume() { //3.3
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() { //3.3
-        super.onPause()
-        Log.d(TAG, "onPause() called")
-    }
-
-    override fun onStop() { //3.3
-        super.onStop()
-        Log.d(TAG, "onStop() called")
-    }
-
-    override fun onDestroy() { //3.3
-        super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
-    }
-
-
-
+    //2.11
     private fun updateQuestion() {
-        val questionTextResId = quizViewModel.currentQuestionText //4
+        val questionTextResId = questionBank[currentIndex].textResId
         binding.questionTextView.setText(questionTextResId)
     }
 
+    //2.12
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = quizViewModel.currentQuestionAnswer //4
+        val correctAnswer = questionBank[currentIndex].answer
 
-        //7.17 Changing toast message based on value of isCheater
-        val messageResId = when {
-            quizViewModel.isCheater -> R.string.judgment_toast
-            userAnswer == correctAnswer -> R.string.correct_toast
-            else -> R.string.incorrect_toast
+        val messageResId = if (userAnswer == correctAnswer) {
+            R.string.correct_toast
+        } else {
+            R.string.incorrect_toast
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
-
     }
-
 }
