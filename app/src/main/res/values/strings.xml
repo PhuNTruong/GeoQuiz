@@ -1,11 +1,23 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
+<<<<<<< Updated upstream
+=======
+    <!-- Listing 7.1 adding new strings -->
+>>>>>>> Stashed changes
     <string name="question_australia">Canberra is the capital of Australia.</string>
     <string name="question_oceans">The Pacific Ocean is larger than the Atlantic Ocean.</string>
     <string name="question_mideast">The Suez Canal connects the Red Sea and the Indian Ocean.</string>
     <string name="question_africa">The source of the Nile River is in Egypt.</string>
     <string name="question_americas">The Amazon River is the longest river in the Americas.</string>
     <string name="question_asia">Lake Baikal is the world\'s oldest and deepest freshwater lake.</string>
+    <!-- Custom Questions -->
+    <string name="question_largest">Cal Poly Pomona has the largest campus among all Cal States.</string> <!-- it is the 2nd-->
+    <string name="question_smallest">Cal State Maritime Academy has the smallest campus among all Cal States </string> <!-- it is the smallest out of 23 Campuses-->
+    <string name="question_poly">There are 3 Cal Polys in the CSU system.</string> <!-- Yes, Pomona, SLO, and Humboldt -->
+    <string name="question_rank1">Cal Poly Pomona is ranked #1 for Social Mobility.</string> <!-- Yes we are known for #1 for upward movement -->
+    <string name="question_beef">The sheep on CPP are apart of the BEEF unit.</string> <!-- No, Sheep can't be apart of the BEEF unit-->
+    <string name="question_icecream">Cal Poly Pomona has their own ice cream!.</string> <!-- Yes, they sell it in the pony express and other locations -->
+    <!-- Custom Questions -->
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="correct_toast">Correct!</string>
@@ -18,4 +30,9 @@
     <string name="judgment_toast">Cheating is wrong.</string>
     <!-- Listing 7.1 adding new strings -->
     <string name="next_button">Next</string>
+<<<<<<< Updated upstream
+=======
+    <!-- Challenge: Add a Previous Button -->
+    <string name="previous_button">Prev</string>
+>>>>>>> Stashed changes
 </resources>

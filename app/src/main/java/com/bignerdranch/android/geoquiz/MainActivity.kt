@@ -42,15 +42,32 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.trueButton.setOnClickListener { view: View ->
+<<<<<<< Updated upstream
+=======
+            //Challenge:Prevent Repeat
+            preventRepeat()
+>>>>>>> Stashed changes
             checkAnswer(true)
         }
 
         binding.falseButton.setOnClickListener { view: View ->
+<<<<<<< Updated upstream
             checkAnswer(false)
         }
 
         binding.nextButton.setOnClickListener {
             quizViewModel.moveToNext() //4.7
+=======
+            //Challenge:Prevent Repeat
+            preventRepeat()
+            checkAnswer(false)
+        }
+
+        //Challenge: Add Previous Button
+        binding.previousButton.setOnClickListener {
+            quizViewModel.moveToPrevious()
+            checkIfAnswered(quizViewModel.currentIndex)
+>>>>>>> Stashed changes
             updateQuestion()
 
         }
@@ -66,6 +83,27 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+<<<<<<< Updated upstream
+=======
+        binding.nextButton.setOnClickListener {
+            quizViewModel.moveToNext() //4.7
+            checkIfAnswered(quizViewModel.currentIndex)
+            updateQuestion()
+
+        }
+//Listing 7.5 Wiring up the cheat button
+        binding.cheatButton.setOnClickListener {
+            // Start CheatActivity
+            //Listing 7.6 Starting CheatActivity
+            //Listing 7.9 Launching CheatActivity with an Extra
+            val answerIsTrue = quizViewModel.currentQuestionAnswer
+            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
+            //Listing 7.13 Launching cheatLauncher
+            cheatLauncher.launch(intent)
+        }
+
+
+>>>>>>> Stashed changes
         updateQuestion()
     }
 
@@ -109,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         //7.17 Changing toast message based on value of isCheater
         val messageResId = when {
             quizViewModel.isCheater -> R.string.judgment_toast
+<<<<<<< Updated upstream
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
@@ -116,6 +155,53 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
 
+=======
+            userAnswer == correctAnswer -> R.string.correct_toast;
+            else -> R.string.incorrect_toast
+        }
+
+        if(userAnswer == correctAnswer){
+            quizViewModel.score += 1
+        }
+
+
+
+        //for challenge graded quiz:
+        var testPercentage = (quizViewModel.score * 100) / quizViewModel.questionBank.size
+
+        //will make last toast say the score as well
+        if(quizViewModel.currentIndex == quizViewModel.questionBank.size - 1){
+            Toast.makeText(this, this.getString(messageResId )+ " Final Score: $testPercentage %" , Toast.LENGTH_SHORT) //need to find a way to display the score
+                .show()
+        }
+        else{
+            Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
+                .show()
+        }
+        //
+
+
     }
+
+    //Challenge: Prevent Repeat
+    private fun checkIfAnswered(index: Int){
+        val isAnswered = quizViewModel.questionBank[index].answered //this will be true or false
+        //if the question is answered, == true, then the buttons are disabled
+        //if the question is not answered, = =false, then the buttons are still enabled
+        binding.trueButton.isEnabled = !isAnswered
+        binding.falseButton.isEnabled = !isAnswered
+
+    }
+
+    //Challenge: Prevent Repeat
+    private fun preventRepeat(){
+        binding.trueButton.isEnabled = false
+        binding.falseButton.isEnabled = false
+        quizViewModel.questionBank[quizViewModel.currentIndex].answered = true
+>>>>>>> Stashed changes
+    }
+
+
+
 
 }
