@@ -2,10 +2,15 @@ package com.bignerdranch.android.geoquiz
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
+
+//3.1
+private const val TAG = "MainActivity"
+
 
 class MainActivity : AppCompatActivity() {
     //2.7
@@ -25,6 +30,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //3.2
+        Log.d(TAG, "onCreate(Bundle?) called")
+
         //2.7
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -63,6 +71,33 @@ class MainActivity : AppCompatActivity() {
         //2.9
         updateQuestion()
     }
+
+    //3.3 Overriding more lifecycle functions
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart() called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
+    }
+
 
     //2.11
     private fun updateQuestion() {
