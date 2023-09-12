@@ -34,25 +34,28 @@ class MainActivity : AppCompatActivity() {
         //2.8
         binding.trueButton.setOnClickListener { view: View ->
             //2.13
+            preventRepeat() // Challenge:  Prevent Repeat
             checkAnswer(true)
         }
 
         //2.8
         binding.falseButton.setOnClickListener { view: View ->
             //2.13
+            preventRepeat() // Challenge:  Prevent Repeat
             checkAnswer(false)
         }
 
-        //Challenge: add a Previous Button
+        /*Challenge: add a Previous Button
         binding.previousButton.setOnClickListener {
             currentIndex = (currentIndex + questionBank.size - 1) % questionBank.size
             updateQuestion()
 
-        }
+        }*/
 
         //2.10
         binding.nextButton.setOnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size
+            checkIfAnswered(currentIndex)
             updateQuestion()
 
         }
@@ -80,4 +83,22 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
     }
+
+    //Challenge: Prevent Repeat
+    private fun checkIfAnswered(index: Int){
+        val isAnswered = questionBank[index].answered //this will be true or false
+        //if the question is answered, == true, then the buttons are disabled
+        //if the question is not answered, = =false, then the buttons are still enabled
+        binding.trueButton.isEnabled = !isAnswered
+        binding.falseButton.isEnabled = !isAnswered
+
+    }
+
+    //Challenge: Prevent Repeat
+    private fun preventRepeat(){
+        binding.trueButton.isEnabled = false
+        binding.falseButton.isEnabled = false
+        questionBank[currentIndex].answered = true
+    }
+
 }

@@ -12,7 +12,6 @@
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="next_button">Next</string>
-    <!-- Challenge: Add a previous button -->
     <string name="previous_button">Prev</string>
     <!-- Listing 1.7 Adding toast strings -->
     <string name="correct_toast">Correct!</string>
